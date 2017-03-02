@@ -1,6 +1,8 @@
 {% extends 'app/base.html' %}
 <!DOCTYPE html>
-
+<section class="first-section" style="background-color: #bbccdd">
+            <p align="center">Welcome, </p>
+           </section>
 {% load static %}
 {% block body_block %}
 
@@ -22,9 +24,9 @@ $('[data-toggle="popover"]').popover({
                            <span>
                                <input type="text" class="search-rounded input-lg" placeholder="jump to your #trend" name="searchterm" id="searchterm" required/>
                                <span>
-                                   <input type="submit" class="btn btn-primary" name="search" value="Search#">
+                                   <input type="submit" class="btn btn-primary" name="search" value="Search#" >
                                </span>
-                               <a href="http://127.0.0.1:8000/app/results.html/?searchterm={{ surprise_term|urlencode }}" class="btn btn-danger"data-toggle="popover" title="Confused?" data-content="Click to start exploring!">Surprise Me!</a>
+                               <a href="{{ request.get_full_path }}app/results.html/?searchterm={{ surprise_term|urlencode }}" class="btn btn-danger"data-toggle="popover" title="Confused?" data-content="Click to start exploring!" name="surprise">Surprise Me!</a>
 
                            </span>
 
@@ -41,19 +43,17 @@ $('[data-toggle="popover"]').popover({
 
 
 
-
-
     <div id="cloud" class="jqcloud" style="position:relative" data-toggle="popover"></div>
                        <script type="text/javascript">
 
                        $(document).ready(function(){
                            var words =[
                        {% for key in json_list %}
-                           {text: "{{ key }}",weight: -1,link:'http://127.0.0.1:8000/app/results.html/?searchterm={{ key|urlencode }}'},
-                          {text: "{{ key }}",weight: -2 ,link:'http://127.0.0.1:8000/app/results.html/?searchterm={{ key|urlencode }}'},
-                          {text: "{{ key }}",weight: -3 ,link:'http://127.0.0.1:8000/app/results.html/?searchterm={{ key|urlencode }}'},
-                           {text: "{{ key }}",weight: -4 ,link:'http://127.0.0.1:8000/app/results.html/?searchterm={{ key|urlencode }}'},
-                           {text: "{{ key }}",weight: -5 ,link:'http://127.0.0.1:8000/app/results.html/?searchterm={{ key|urlencode }}'},
+                           {text: "{{ key }}",weight: -1,link:'{{ request.get_full_path }}app/results.html/?searchterm={{ key|urlencode }}'},
+                          {text: "{{ key }}",weight: -2 ,link:'{{ request.get_full_path }}app/results.html/?searchterm={{ key|urlencode }}'},
+                          {text: "{{ key }}",weight: -3 ,link:'{{ request.get_full_path }}app/results.html/?searchterm={{ key|urlencode }}'},
+                           {text: "{{ key }}",weight: -4 ,link:'{{ request.get_full_path }}app/results.html/?searchterm={{ key|urlencode }}'},
+                           {text: "{{ key }}",weight: -5 ,link:'{{ request.get_full_path }}app/results.html/?searchterm={{ key|urlencode }}'},
                         {% endfor %}];
                         $("#cloud").jQCloud(words, {
                                       width: 1160,

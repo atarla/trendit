@@ -1,33 +1,64 @@
 {% extends 'app/base.html' %}
 <!DOCTYPE html>
 {% block body_block %}
+<section id="sp-main-body" style="margin-top:-6%"><div class="container"><div class="row"><div id="sp-component" class="col-sm-12 col-md-12"><div class="sp-column "><div id="system-message-container">
+</div>
 
-<div class="hero-unit">
-    <h1>Login to Trend!t</h1>
-            <div class="row">
-  <div class="col-md-6 col-md-offset-2">
-
-  <div class="well">
-    <div class="container">
-    <form class="form-signin span4" id="login_form" method="post" action="/login/">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        {% csrf_token %}
+    <link href="https://shapebootstrap.net/templates/default/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/shapebootstrap.icon.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/presets/preset1.css" rel="stylesheet" type="text/css" class="preset"/>
+<div class="row">
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+<div class="page-login-form box login">
+<div class="login-description text-center">
+Login to Trend!t
+<p>You can sign in with your username</p>
+</div>
+<form id="login_form" method="post" action="/login/" class="form-validate">
+    {% csrf_token %}
 
         {% if bad_details %}
         <p><strong>Your username and/or password were incorrect!</strong></p>
         {% elif disabled_account %}
         <p><strong>Your Trend!t account is currently disabled; we can't log you in!</strong></p>
         {% endif %}
-
-        <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" /> <a href = "/forgotusername">Forgot Username?</a><br>
-        <br />
-        <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50" /> <a href = "/forgotpassword">Forgot Password?</a><br>
-        <br />
-        <button class="btn btn-primary" type="submit">Sign in</button>
-    </form>
-
-    </div>
-    <!-- /container -->
+<div class="form-group">
+<div class="group-control">
+<input type="text" name="username" id="username" value="" class="validate-username required" size="25" placeholder="Username" required="" aria-required="true" autofocus=""> </div>
+<a href = "/forgotusername">Forgot Username?</a><br>
 </div>
+
+<div class="form-group">
+<div class="group-control">
+<input type="password" name="password" id="password" value="" placeholder="Password" class="validate-password required" size="25" maxlength="99" required="" aria-required="true"> </div>
+<a href = "/forgotpassword">Forgot Password?</a><br>
+</div>
+
+<div class="checkbox">
+<label>
+<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
+Remember me </label>
+</div>
+<div class="form-group text-right">
+<button type="submit" class="btn btn-success btn-lg btn-block btn-login">
+Log in </button>
+</div>
+<input type="hidden" name="return" value="aHR0cHM6Ly9zaGFwZWJvb3RzdHJhcC5uZXQv">
+<input type="hidden" name="9f90f51ef43dc544b5c7cb81ff8f3d04" value="1">
+</form>
+</div>
+<div class="form-links">
+<ul>
+<li>
+<label>Don't have an account?</label><a href="/register">Sign Up
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div></div></div></div></section>
+
 {% endblock %}
-</div></div></div>
+<br><br><br>

@@ -13,7 +13,9 @@ from django.contrib.auth.models import User
 from mainapp.forms import ContactForm
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
+from django_forum.models import Topic, Post, Forum
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from trenditapp.settings import *
 
 
 def register(request):
@@ -80,6 +82,38 @@ def index(request):
 
 def user_details(request):
     return render(request, "app/details.html")
+
+
+from django.template.context_processors import csrf
+
+
+def add_csrf(request, ** kwargs):
+    d = dict(user=request.user, ** kwargs)
+    d.update(csrf(request))
+    return d
+
+
+def mk_paginator(request, items, num_items):
+    """Create and return a paginator."""
+    paginator = Paginator(items, num_items)
+    try: page = int(request.GET.get("page", '1'))
+    except ValueError: page = 1
+
+    try:
+        items = paginator.page(page)
+    except (InvalidPage, EmptyPage):
+        items = paginator.page(paginator.num_pages)
+    return items
+
+
+def timeline(request):
+    userid = request.user.id
+    topics = Topic.objects.filter(creator=userid).order_by("-created")
+    creator = request.user.username  # This pulls the user object from creator field
+    topics = mk_paginator(request, topics, DJANGO_SIMPLE_FORUM_TOPICS_PER_PAGE)
+
+    return render(request, "app/timeline.html", add_csrf(request,
+        topics=topics, creator=creator))
 
 
 @login_required

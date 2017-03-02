@@ -5,12 +5,16 @@ from django.contrib.auth.models import User
 from mainapp.forms import UserForm
 from mainapp.forms import ContactForm,ResetPasswordForm
 #from mainapp.views import user_login
-import nose.tools as nt
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.test import TestCase
 
-class TestRegister(TestCase):
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as EC
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+class TestRegister(StaticLiveServerTestCase):
     def test_register(self):
         self.client = Client()
         self.user = User.objects.create_user('rohankhairnar12131','rohan1212@gmail.com', 'abcdefg')
@@ -92,4 +96,36 @@ class TestRegister(TestCase):
         )
         # Test that one message has been sent.
         self.assertEqual(len(mail.outbox), 1)
+
+    @classmethod
+    def setUpClass(cls):
+        super(TestRegister, cls).setUpClass()
+        cls.selenium = WebDriver(executable_path='C:/selenium/chromedriver.exe')
+        cls.selenium.implicitly_wait(10)
+
+    # @classmethod
+    # def tearDownClass(cls):
+    #     cls.selenium.quit()
+    #     super(TestRegister, cls).tearDownClass()
+
+    def testsignup_login(self):
+        self.selenium.maximize_window()
+        self.selenium.get('%s%s' % (self.live_server_url, '/register'))
+
+        self.selenium.find_element_by_name("first_name").send_keys('Anusha')
+        self.selenium.find_element_by_name("username").send_keys('atarla')
+        self.selenium.find_element_by_name("email").send_keys('atarla@uncc.edu')
+        self.selenium.find_element_by_name("password").send_keys('pass@123')
+        self.selenium.find_element_by_name("password2").send_keys('pass@123')
+        self.selenium.find_element_by_name('submit').click()
+        WebDriverWait(self.selenium,5).until(EC.new_window_is_opened)
+            #.until(self.selenium.page_source)
+        self.selenium.get('%s%s' % (self.live_server_url, '/login'))
+        self.selenium.maximize_window()
+        self.selenium.find_element_by_name('username').send_keys('atarla')
+        self.selenium.find_element_by_name('password').send_keys('pass@123')
+        self.selenium.find_element_by_name('login').click()
+        self.selenium.get('%s%s' % (self.live_server_url, '/details'))
+        WebDriverWait(self.selenium,5).until(EC.new_window_is_opened)
+
 

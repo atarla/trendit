@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'twitterapp',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
@@ -124,13 +124,14 @@ USE_TZ = True
 STATIC_ROOT = '/static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "templates/static"), ]
+    os.path.join(BASE_DIR, "templates/static"),
+    os.path.join(BASE_DIR, 'profile_images'),]
 LOGIN_URL = '/mainapp/login/'
 
 #For sending email settings:
 EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'trendit123'
 EMAIL_HOST_USER = 'trendittheapp@gmail.com'
 EMAIL_USE_TLS   = True
 
@@ -148,3 +149,6 @@ DJANGO_SIMPLE_FORUM_TOPICS_PER_PAGE = getattr(settings, 'DJANGO_SIMPLE_FORUM_TOP
 DJANGO_SIMPLE_FORUM_REPLIES_PER_PAGE = getattr(settings, 'DJANGO_SIMPLE_FORUM_REPLIES_PER_PAGE', 10)
 DJANGO_SIMPLE_FORUM_FILTER_PROFANE_WORDS = getattr(settings, 'DJANGO_SIMPLE_FORUM_FILTER_PROFANE_WORDS', True)
 
+#MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'profile_images')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'profile_images')
+MEDIA_URL = '/profile_images/'

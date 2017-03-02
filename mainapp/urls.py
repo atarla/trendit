@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'^email/$', views.email, name='email'),
     url(r'^passwordchange/$', views.password_change, name='passwordchange'),
     url(r'^app/results.html/$', twitterviews.trend_results, name='results'),
+    url(r'^timeline/$', views.timeline,name='timeline'),
+    url(r'^mainapp/login/$', views.user_login, name='login'), #for discussion forum @login_required handling
     ]
 

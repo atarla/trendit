@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import Textarea
+
 from django_forum.models import Topic, Post, ProfaneWord
 
 from trenditapp.settings import *
@@ -19,7 +21,7 @@ class PostForm(forms.ModelForm):
     class Meta():
         model = Post
         exclude = ('creator', 'updated', 'created','topic', 'user_ip',)
-
+        widgets={'body':Textarea(attrs={'cols':150, 'rows': 40}),}
     def clean_body(self):
         body = self.cleaned_data["body"]
 

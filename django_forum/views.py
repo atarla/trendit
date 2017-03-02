@@ -12,6 +12,7 @@ from django_forum.forms import TopicForm, PostForm
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from trenditapp.settings import *
+from datetime import datetime, timedelta
 
 
 def index(request):
@@ -29,7 +30,9 @@ def add_csrf(request, ** kwargs):
 
 def mk_paginator(request, items, num_items):
     """Create and return a paginator."""
+    num_items = 3
     paginator = Paginator(items, num_items)
+
     try: page = int(request.GET.get("page", '1'))
     except ValueError: page = 1
 
@@ -76,8 +79,10 @@ def forum(request, forum_id):
             return render(request, "django_simple_forum/forum.html", add_csrf(request, topics=topics, pk=forum_id, forum=forum, searchterm=user_term1),)
 
         else:
-
-            topics = Topic.objects.filter(forum=1).order_by("-created")
+            now = datetime.now()
+            time_threshold = now - timedelta(minutes=1)
+            print(time_threshold)
+            topics = Topic.objects.filter(created__range=(time_threshold,now))
             topics = mk_paginator(request, topics, DJANGO_SIMPLE_FORUM_TOPICS_PER_PAGE)
 
             forum = get_object_or_404(Forum, pk=forum_id)

@@ -1,7 +1,45 @@
 {#{% load url from future %}#}
+{% extends 'app/base.html' %}
+{% block body_block %}
 
-<form action="{% url 'reply' topic.id %}" method="POST">
+<div name="breadcrumb">
+
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item"><a href="{{request.META.HTTP_REFERER}}">Topic</a></li>
+<li class="breadcrumb-item active">New Topic</li>
+</ol>
+</div>
+<section id="sp-main-body"><div class="container"><div class="row"><div id="sp-component" class="col-sm-12 col-md-12"><div class="sp-column "><div id="system-message-container">
+</div>
+
+    <link href="https://shapebootstrap.net/templates/default/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/shapebootstrap.icon.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/presets/preset1.css" rel="stylesheet" type="text/css" class="preset"/>
+<div class="row">
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+<div class="page-login-form box login">
+<div class="login-description text-center">
+    Post a reply!</div>
+
+
+<form action="{% url 'reply' topic.id %}" method="POST" class="form-validate">
     {% csrf_token %} 
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
+{#    {{ form.as_p }}#}
+    <div class="form-group">
+<div class="group-control">
+    <input type="text" name="title" id="id_title" size="25" placeholder="Optional title">
+    </div></div>
+
+    <div class="form-group">
+<div class="group-control">
+ <textarea cols="150" id="id_body" maxlength="1000" name="body" rows="40" placeholder="Enter your Comment"></textarea></div></div>
+    <div class="form-group text-right">
+<button type="submit" class="btn btn-success btn-lg btn-block btn-login" value="Submit">
+Submit </button>
+    </div>
+
 </form>
+</div></div></div></div></div></div></div></section>
+{% endblock %}

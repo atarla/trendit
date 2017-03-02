@@ -14,7 +14,7 @@
 
         <div class="panel panel-default" >
             <div class="panel-heading" align="left" id="first-div" style="float: left; width: 50%;"><span class="glyphicon glyphicon-list"></span></span><b>Latest Tweets</b></div>
-          <form id="cref" name="cref" action="django_simple_forum/topic.html" method="get">  <div class="panel-heading" align="right" id="second-div" style="float: right; width: 50%;"><b><a href="http://127.0.0.1:8000/forum/1/?searchterm={{ searchterm|urlencode }}">Take me to discussions on {{  searchterm|cut:"%23"|cut:"%20"  }} <span class="glyphicon glyphicon-edit"></span></a>
+          <form id="cref" name="cref" action="django_simple_forum/topic.html" method="get">  <div class="panel-heading" align="right" id="second-div" style="float: right; width: 50%;"><b><a href="/forum/1/?searchterm={{ searchterm|urlencode }}">Take me to discussions on {{  searchterm|cut:"%23"|cut:"%20" | cut:"#" }} <span class="glyphicon glyphicon-edit"></span></a>
             </b></div></form>
             <div class="panel-body"><div class="row"><div class="col-xs-12">
     <ul class="demo">
@@ -40,9 +40,7 @@
         });
         });
         </script>
-{#    <div class="well"> {{ photos }}</div>#}
-    </div>
-</div>
+            </div></div>
 
 </div>
 </div>

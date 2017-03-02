@@ -1,43 +1,86 @@
 {% extends 'app/base.html' %}
 {% block body_block %}
+<section id="sp-main-body"><div class="container"><div class="row"><div id="sp-component" class="col-sm-12 col-md-12"><div class="sp-column "><div id="system-message-container">
+</div>
 
-<div class="hero-unit">
-    <h1>Register with Trend!t</h1>
-        <div class="row">
-  <div class="col-md-4 col-md-offset-2">
-
-  <div class="well">
-    <br />
-
-    <div class="container">
-        {% if registered %}
+    <link href="https://shapebootstrap.net/templates/default/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/shapebootstrap.icon.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/template.css" rel="stylesheet" type="text/css"/>
+<link href="https://shapebootstrap.net/templates/default/css/presets/preset1.css" rel="stylesheet" type="text/css" class="preset"/>
+<div class="row">
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+<div class="page-login-form box login">
+<div class="login-description text-center">
+Register with Trend!t
+</div>
+{% if registered %}
         <p>Thank you for registering.</p>
 
-        <p><a href="/">Login</a> when you are ready to Trend!T</p>
+        <p><a href="/login">Login</a> when you are ready to Trend!T</p>
         {% else %}
-        <form class="form-signin span8" id="user_form" method="post" action="/register/"
+        <form class="form-validate" id="user_form" method="post" action="/register/"
               enctype="multipart/form-data">
             {% csrf_token %}
-            <h2 class="form-signin-heading">Sign up Here</h2>
+        <div class="form-group">
+        <div class="group-control">
+         <input type="text" placeholder="Full Name" name="first_name" value="" size="40" />{{ user_form.first_name.errors }}
+{#            <br />#}
+        </div>
+        </div>
 
-            <!-- Display each form here -->
-            <input type="text" placeholder="Full Name" name="first_name" value="" size="40" />{{ user_form.first_name.errors }} <br />
-            <br><input type="text" placeholder="Username" name="username" value="" size="40" /> {{ user_form.username.errors }}<br />
-            <br><input type="email" placeholder="Email" name="email" value="" size="40" />{{ user_form.email.errors }} <br />
-            <br><input type="password" placeholder="Password" name="password" value="" size="40" />{{ user_form.password.errors }} <br />
-            <br><input type="password" placeholder="Re-Enter" name="password2" value="" size="40" />{{ user_form.password2.errors }} <br />
-            <br><input type="text" placeholder="Website" name="website" value="" size="40" /><br/>{{ profile_form.website.errors }} <br />
+        <div class="form-group">
+        <div class="group-control">
+        <input type="text" placeholder="Username" name="username" value="" size="40" /> {{ user_form.username.errors }}
+        </div>
+        </div>
+
+        <div class="form-group">
+        <div class="group-control">
+        <input type="email" placeholder="Email" name="email" value="" size="40" />{{ user_form.email.errors }}
+        </div>
+        </div>
+
+        <div class="form-group">
+        <div class="group-control">
+        <input type="password" placeholder="Password" name="password" value="" size="40" />{{ user_form.password.errors }}
+        </div></div>
+
+        <div class="form-group">
+        <div class="group-control">
+        <input type="password" placeholder="Re-Enter" name="password2" value="" size="40" />{{ user_form.password2.errors }}
+        </div></div>
+
+        <div class="form-group">
+        <div class="group-control">
+        <input type="text" placeholder="Website" name="website" value="" size="40" />
+        </div></div>
+
+            {{ profile_form.website.errors }} <br />
+
             {{ profile_form.picture }}{{ profile_form.picture.errors }}<br>
 
-            <br />
-            <!-- Provide a button to click to submit the form. -->
-            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
-        <a href="/login/">Login</a>
-        <a href="/">Home</a>
+
+
+        <div class="form-group text-right">
+        <button type="submit" class="btn btn-success btn-lg btn-block btn-login">
+        Register </button>
+        </div>
+        <input type="hidden" name="return" value="aHR0cHM6Ly9zaGFwZWJvb3RzdHJhcC5uZXQv">
+        <input type="hidden" name="9f90f51ef43dc544b5c7cb81ff8f3d04" value="1">
         </form>
-        {% endif %}
-    </div>
-</div>
+        </div>
+        <div class="form-links">
+        <ul>
+        <li>
+        <label>Have an account already?</label><a href="/login">Login
+        </a>
+        </li>
+        <li><a href="/">Home</a></li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        </div></div></div></div></section>
+{% endif %}
+
 {% endblock %}
-</div></div>
-  </div>

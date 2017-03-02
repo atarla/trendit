@@ -1,18 +1,34 @@
 {#{% load url from future %}#}
 {% extends 'app/base.html' %}
-{% block body_block %}
 
+{% block body_block %}
+<script language="javascript">
+    function postIncrement(){
+        return no=Number({{ topic.num_replies }})+Number(1);
+        document.getElementById("posts").innerHTML=window.postIncrement();
+    }
+    </script>
+
+<div name="breadcrumb">
+
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="/" style="color:#508836">Home</a></li>
+<li class="breadcrumb-item"><a href="/app/results.html/?searchterm={{ searchterm|urlencode }}" style="color:#508836">{{ searchterm|cut:"%23"|cut:"%20" }}</a></li>
+<li class="breadcrumb-item active" style="color:#508836">Forum</li>
+</ol>
+</div>
 
 <!-- Threads  -->
-{% if topics|length == 0 %}
+{% if topics|length == 0 and searchterm != None %}
+
 <div align="center"> <h2 align="center" class="">No discussions on #<strong>{{ searchterm|cut:"%23"|cut:"%20" | cut:"#" }}</strong></h2>
-    <h3><a id="new_topic" class="button" href="{% url 'new-topic' pk %}?searchterm={{ searchterm|urlencode }}">Good time to start one! To begin discussion on <strong>{{ searchterm|cut:"%23"|cut:"%20" | cut:"#" }}</strong> click here!</a></h3></div>
+    <h3><a id="new_topic" class="button" href="{% url 'new-topic' pk %}?searchterm={{ searchterm|urlencode }}" style="color:#508836">Good time to start one! To begin discussion on <strong>{{ searchterm|cut:"%23"|cut:"%20" | cut:"#" }}</strong> click here!</a></h3></div>
     <br>
-{#    <h3>If not, well following are some recently discussed topics:</h3>#}
+
     <form id="cref" name="cref" action="django_simple_forum/new-topic.html" method="get">  <div class="panel-heading" align="right" id="second-div" style="float: right; width: 50%;"><b>
             </b></div></form>
 {% endif %}
-    {% if topics|length > 0 %}
+    {% if topics|length > 0 and searchterm != None%}
 <div align="center"> <h2 align="center" class="">Found {{ topics|length }} discussions on #<strong>{{ searchterm|cut:"%23"|cut:"%20" | cut:"#" }}</strong></h2>
     <h4 style="color: #1da1f2">Select a topic to begin with discussion on #<strong>{{ searchterm|cut:"%23"|cut:"%20" | cut:"#" }}</strong></h4></div>
 
@@ -20,33 +36,38 @@
 <br />
 <br />
 
+
+
 <div id="list">
-<table border="0" cellpadding="4" width="100%">
-    <tr>
-        <td>Topics</td>
-        <td>Discussion count</td>
-{#        <td>Last post</td>#}
-        <td>Last updated</td>
-    </tr>
+<table class="table forum table-striped">
 
+    <thead>
+      <tr>
+        <th class="cell-stat"></th>
+        <th>
+          <h3>Topics</h3>
+        </th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">Last Post</th>
+        <th class="cell-stat-2x hidden-xs hidden-sm">Last Update</th>
+      </tr>
+    </thead>
+    <tbody>
     {% for topic in topics.object_list %}
-
-    <tr>
-{#    {%  if topic.title == "random" %}#}
-        <td {% if forloop.last %}class="last"{% endif %}>
-        <div class="title"> <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a>
-            </div></td>
-        <td {% if forloop.last %}class="last"{% endif %}>{{ topic.num_replies }}</td>
-{#        <td {% if forloop.last %}class="last"{% endif %}>#}
-{#            {{ topic.last_post.short|linebreaksbr }}</td>#}
-        <td {% if forloop.last %}class="last"{% endif %}>{{ topic.last_post.created }}
-{#            <a class="button" href="{% url 'topic-detail' topic.pk %}">VIEW</a>#}
+      <tr>
+        <td class="text-center"><i class="fa fa-question fa-2x text-primary"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></td>
+        <td>
+          <h4><div class="title"> <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a>
+            </div><small>{{ topic.description }}</small></h4>
         </td>
-    </tr>
-
+        <td class="text-center hidden-xs hidden-sm" id="posts"><a href="{% url 'topic-detail' topic.pk %}">{{ topic.num_replies }}</a></td>
+        <td class="text-center hidden-xs hidden-sm"><a href="{% url 'topic-detail' topic.pk %}">{{ topic.last_post.short }}</a><br><small><i class="fa fa-clock-o"></i>{{ topic.last_post.created }}</small></td>
+        <td class="hidden-xs hidden-sm">by <a href="#">{{ topic.creator }}</a><br><small><i class="fa fa-clock-o"></i>{{ topic.created }}</small></td>
+      </tr>
+      <tr>
     {% endfor %}
-
-</table>
+    </tbody>
+  </table>
 </div>
 
 <!-- Next/Prev page links  -->
@@ -54,7 +75,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if topics.has_previous %}
-            <a href= "?page={{ topics.previous_page_number }}">previous &lt;&lt; </a>
+            <a href= "?page={{ topics.previous_page_number }}&searchterm={{ searchterm }}">previous &lt;&lt; </a>
         {% endif %}
 
         <span class="current">
@@ -62,11 +83,52 @@
         </span>
 
         {% if topics.has_next %}
-            <a href="?page={{ topics.next_page_number }}"> &gt;&gt; next</a>
+            <a href="?page={{ topics.next_page_number }}&searchterm={{ searchterm }}"> &gt;&gt; next</a>
         {% endif %}
     </span>
 </div>
 {% endif %}
 {% endif %}
+    {% if searchterm == None %}
+        <div align="center"> <h2 align="center" class="">Found {{ topics|length }} discussion!</h2>
+    <h4 style="color: #1da1f2">Select the following topic to begin with discussion</h4></div>
+
+
+<br />
+<br />
+
+
+<div id="list">
+<table class="table forum table-striped">
+    <thead>
+      <tr>
+        <th class="cell-stat"></th>
+        <th>
+          <h3>Topics</h3>
+        </th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">Last Post</th>
+        <th class="cell-stat-2x hidden-xs hidden-sm">Last Update</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for topic in topics.object_list %}
+      <tr>
+        <td class="text-center"><i class="fa fa-question fa-2x text-primary"></i></td>
+        <td>
+          <h4><div class="title"> <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a>
+            </div><small>{{ topic.description }}</small></h4>
+        </td>
+        <td class="text-center hidden-xs hidden-sm"><a href="{% url 'topic-detail' topic.pk %}">{{ topic.num_replies }}</a></td>
+        <td class="text-center hidden-xs hidden-sm"><a href="{% url 'topic-detail' topic.pk %}">{{ topic.last_post.short|linebreaksbr }}</a></td>
+        <td class="hidden-xs hidden-sm">by <a href="#">{{ topic.creator }}</a><br><small><i class="fa fa-clock-o"></i>{{ topic.last_post.created }}</small></td>
+      </tr>
+      <tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+    {% endif %}
 
 {% endblock %}

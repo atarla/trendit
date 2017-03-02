@@ -1,6 +1,6 @@
 import tweepy
 import random
-from django.shortcuts import render, HttpResponseRedirect, reverse
+from django.shortcuts import render, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404, render
 from twitterapp import config
 
@@ -42,5 +42,6 @@ def trend_results(request):
             results = set([i.text.encode("utf-8") for i in trendresults])
             context = {'user': request.user,'results':results,'searchterm':user_term}
             return render(request, 'app/results.html', context)
+
 
 
